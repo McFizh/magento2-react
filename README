@@ -1,0 +1,10 @@
+* Vagrant environment
+
+To try out environment run the following:
+
+vagrant up
+vagrant ssh
+cd /vagrant ; rm -rf node_modules ; npm install
+npm start
+
+Note: npm start will fail, if you have installed node modules outside vagrant environment and vice versa. That's why we remove node_modules folder on init.
