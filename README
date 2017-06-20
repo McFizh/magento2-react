@@ -1,9 +1,20 @@
 * Vagrant environment
 
-To try out environment run the following:
+Provided vagrantfile assumes you are using vmware provider, make necessary changes if using something else. To try out the environment, start up virtual machine with command:
 
 vagrant up
+
+Now transfer magento 2.1 (with sample data) install file to server. Currently the file is called "Magento-CE-2.1.7_sample_data-2017-05-30-09-30-10.tar.bz2". vagrant-scp plugin makes this easy for your.
+
+After the transfer is complete, ssh to the machine, unpack magento file and run cli installer:
+
 vagrant ssh
+cd /services/magento
+tar xf ~/Magento-CE-2.1.7_sample_data-2017-05-30-09-30-10.tar.bz2
+php bin/magento setup:install --admin-firstname=vagrant --admin-lastname=vagrant --admin-user=admin --admin-password=pass1234 --admin-email="changeme@mailinator.com" --backend-frontname="admin_abc1"
+
+Once installation is completed, install dependencies for react frontend:
+
 cd /vagrant ; rm -rf node_modules ; npm install
 npm start
 
