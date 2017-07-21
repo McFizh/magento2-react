@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './css/App.css';
 
 class App extends Component {
 
@@ -26,7 +26,7 @@ class App extends Component {
     var xhr = new XMLHttpRequest();
     var objRef = this;
 
-    xhr.open("GET","http://localhost:3080/rest/V1/categories");
+    xhr.open("GET","http://localhost:3090/rest/V1/categories");
 
     xhr.onreadystatechange = function() { objRef.ajaxCallback(xhr); }
     xhr.send();

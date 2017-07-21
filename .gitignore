@@ -16,6 +16,7 @@
 .env.test.local
 .env.production.local
 .vagrant
+VagrantScripts/Magento-CE-2.1.7_sample_data-2017-05-30-09-30-10.tar.bz2
 
 package-lock.json
 

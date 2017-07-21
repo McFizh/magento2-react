@@ -70,3 +70,9 @@ systemctl enable php70-php-fpm
 
 systemctl start nginx
 systemctl start php70-php-fpm
+
+# Install magento
+cd /services/magento
+sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.1.7_sample_data-2017-05-30-09-30-10.tar.bz2
+sudo -u vagrant php bin/magento setup:install --admin-firstname=vagrant --admin-lastname=vagrant --admin-user=admin --admin-password=pass1234 --admin-email="changeme@mailinator.com" --backend-frontname="admin_abc1"
+
