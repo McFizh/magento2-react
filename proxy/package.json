@@ -1,0 +1,10 @@
+{
+  "name": "proxy",
+  "version": "0.0.1",
+  "description": "Rest proxy",
+  "main": "index.js",
+  "author": "",
+  "dependencies": {
+    "hapi": "^16.5.0"
+  }
+}

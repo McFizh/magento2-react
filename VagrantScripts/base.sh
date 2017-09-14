@@ -60,9 +60,12 @@ chown vagrant:vagrant -R /services/magento
 mysql -u root -e"create database magento2"
 
 # Reinstall npm packages
-cd /vagrant ; rm -rf node_modules
+cd /vagrant/frontend ; rm -rf node_modules
 sudo -u vagrant npm install
 sudo -u vagrant npm run build
+
+cd ../proxy ; rm -rf node_modules
+sudo -u vagrant npm install
 
 # Enable more services
 systemctl enable nginx
@@ -73,6 +76,6 @@ systemctl start php70-php-fpm
 
 # Install magento
 cd /services/magento
-sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.1.7_sample_data-2017-05-30-09-30-10.tar.bz2
+sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.1.8_sample_data-2017-08-09-08-42-11.tar.bz2
 sudo -u vagrant php bin/magento setup:install --admin-firstname=vagrant --admin-lastname=vagrant --admin-user=admin --admin-password=pass1234 --admin-email="changeme@mailinator.com" --backend-frontname="admin_abc1"
 

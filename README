@@ -1,8 +1,10 @@
+This repo contains the following: Magento 2.1.8, React UI and Hapi.js REST proxy between React and Magento. If you just want to play around, provided vagrant scripts create ready to use environment.
+
 * Vagrant environment
 
-Before starting up virtual machine, replace empty file "Magento-CE-2.1.7_sample_data-2017-05-30-09-30-10.tar.bz2" in VagrantScripts-folder with a proper downloaded copy of magento with sampledata. This can't be done automatically, thanks to some braindead policy of keeping downloads behind login.
+Before starting up virtual machine, replace empty file "Magento-CE-2.1.8_sample_data-2017-08-09-08-42-11.tar.bz2" in VagrantScripts-folder with a proper downloaded copy of magento with sampledata. This can't be done automatically, thanks to some braindead policy of keeping downloads behind login.
 
-Provided vagrantfile assumes you are using vmware provider, make necessary changes if using something else. To try out the environment, start up virtual machine with command "vagrant up".
+Vagrantfile assumes you are using vmware provider, make necessary changes if using something else. To try out the environment, start up virtual machine with command "vagrant up".
 
 After the machine has been brought up, you can access magento admin via url:
 
@@ -10,7 +12,7 @@ http://localhost:3090/admin_abc1
 
 Username is: admin and password is: pass1234
 
-Visit it right away and enable anonymous API access from path "System > Configuration > Services > Magento Web API". Select Yes from the Allow Anonymous Guest Access menu.
+Visit it right away and enable anonymous API access from path "Stores > Configuration > Services > Magento Web API > Web API Security". Select Yes from the Allow Anonymous Guest Access menu. You also need to visit "System > Cache management" and flush magento cache to make previous change active.
 
 After this, you can access frontend via url:
 
