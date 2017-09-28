@@ -12,12 +12,10 @@ http://localhost:3090/admin_abc1
 
 Username is: admin and password is: pass1234
 
-Visit it right away and enable anonymous API access from path "Stores > Configuration > Services > Magento Web API > Web API Security". Select Yes from the Allow Anonymous Guest Access menu. You also need to visit "System > Cache management" and flush magento cache to make previous change active.
-
-After this, you can access frontend via url:
+The actual frontend lives in url:
 
 http://localhost:3080/
 
-If you want to start development server for frontend, use command "npm start" on server.
+If you want to start development server for frontend, use command "npm start" in folder '/vagrant/frontend'.
 
 Note: npm start will fail, if you have installed node modules outside vagrant environment and vice versa. That's why we remove node_modules folder on init.
