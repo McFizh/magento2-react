@@ -5,6 +5,8 @@
   "main": "index.js",
   "author": "",
   "dependencies": {
-    "hapi": "^16.5.0"
+    "arangojs": "5.7.0",
+    "hapi": "16.6.0",
+    "superagent": "3.6.0"
   }
 }
