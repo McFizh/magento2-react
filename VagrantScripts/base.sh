@@ -90,7 +90,7 @@ systemctl start php70-php-fpm
 
 # Install magento
 cd /services/magento
-sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.1.8_sample_data-2017-08-09-08-42-11.tar.bz2
+sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.1.9_sample_data-2017-09-13-04-06-27.tar.bz2
 sudo -u vagrant php bin/magento setup:install \
     --admin-firstname=vagrant --admin-lastname=vagrant --admin-user=admin\
     --admin-password=pass1234 --admin-email="changeme@mailinator.com" --backend-frontname="admin_abc1"\
