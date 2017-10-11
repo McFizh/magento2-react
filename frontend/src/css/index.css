@@ -1,5 +1,74 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+div.menu {
+    line-height: 50px;
+    width: 100%;
+    background-color: #ccc;
+    text-align: center;
+}
+
+div.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+div.menu ul li {
+    cursor: pointer;
+}
+
+div.menu li ul {
+    display: none;
+}
+
+
+
+
+div.menu li:hover > ul {
+    display: block;
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: #eee;
+}
+
+div.menu ul ul ul {
+    left: 100%;
+    top: 0;
+}
+
+
+
+
+/* Top level links */
+div.menu > ul > li {
+    display: inline-block;
+    color: #666;
+}
+
+div.menu > ul > li:hover {
+    color: #000;
+}
+
+div.menu > ul > li:not(:first-child) {
+    margin-left: 20px;
+}
+
+/* Other levels */
+div.menu > ul > li > ul li:hover {
+    background-color: #777;
+}
+
+/* -- */
+div.menu ul:before,
+div.menu ul:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+div.menu ul:after {
+    clear: both;
 }

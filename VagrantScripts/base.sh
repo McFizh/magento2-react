@@ -9,15 +9,13 @@ sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
 yum install -q -y epel-release
 
-# Install mariadb repo
+# Install mariadb & elastic & arangodb repos
 curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
-
-# Install arangodb repo
-cd /etc/yum.repos.d
-curl -O https://download.arangodb.com/arangodb32/CentOS_7/arangodb.repo
+cp /vagrant/VagrantScripts/elastic.repo /etc/yum.repos.d/
+cp /vagrant/VagrantScripts/arangodb.repo /etc/yum.repos.d/
 
 # Enable installation after epel is installed
-yum install -q -y ntp vim-enhanced wget git nodejs MariaDB-server nginx tree 
+yum install -q -y ntp vim-enhanced wget git nodejs MariaDB-server nginx tree elasticsearch java-1.8.0-openjdk-headless
 
 # Install arangodb, capture root password
 yum install -q -y arangodb3 > /tmp/out1 2>/tmp/out2
@@ -30,9 +28,11 @@ ntpdate -u pool.ntp.org
 systemctl enable ntpd
 systemctl enable mariadb
 systemctl enable arangodb3.service
+systemctl enable elasticsearch
 systemctl start ntpd
 systemctl start mariadb
 systemctl start arangodb3.service
+systemctl start elasticsearch
 
 PHP_VERSION="70"
 # PHP 7.0.x install:
@@ -99,3 +99,6 @@ sudo -u vagrant php bin/magento setup:install \
 # Create magento integration
 cd /services/tools
 sudo -u vagrant php integration.php
+
+# Create cron job for vagrant user
+sudo -u vagrant crontab /vagrant/VagrantScripts/cron

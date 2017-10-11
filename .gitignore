@@ -4,6 +4,9 @@
 /proxy/node_modules
 /frontend/node_modules
 
+# Generated files
+proxy/config.js
+
 # production
 /frontend/build
 
@@ -14,7 +17,7 @@
 .env.test.local
 .env.production.local
 .vagrant
-VagrantScripts/Magento-CE-2.1.7_sample_data-2017-05-30-09-30-10.tar.bz2
+VagrantScripts/Magento-CE-2.1.9_sample_data-2017-09-13-04-06-27.tar.bz2
 
 package-lock.json
 

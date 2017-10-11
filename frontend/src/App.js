@@ -26,7 +26,7 @@ class App extends Component {
     var xhr = new XMLHttpRequest();
     var objRef = this;
 
-    xhr.open("GET","http://localhost:3090/rest/V1/categories");
+    xhr.open("GET","http://localhost:3080/api/categories");
 
     xhr.onreadystatechange = function() { objRef.ajaxCallback(xhr); }
     xhr.send();
@@ -36,8 +36,10 @@ class App extends Component {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
         var data = JSON.parse( xhr.responseText );
 
+	// We use data[0].childs, because we don't want to show root
+	// category in menu
         this.setState(
-            { menuData: this.parseMenu( data.children_data ) }
+            { menuData: this.parseMenu( data[0].childs ) }
         );
     }
   }
@@ -46,13 +48,11 @@ class App extends Component {
     var retVal = "<ul>";
 
     for(let item of menuData) {
-        if(!item.is_active)
-            continue;
-    
-        retVal += "<li>"+item.name+"</li>";
-        if (item.children_data && item.children_data.length > 0) {
-            retVal+=this.parseMenu(item.children_data);
+        retVal += "<li>"+item.name;
+        if (item.childs && item.childs.length > 0) {
+            retVal+=this.parseMenu(item.childs);
         }
+	retVal += "</li>";
     }
 
     return retVal+"</ul>";

@@ -1,0 +1,7 @@
+[arangodb]
+name=ArangoDB Project
+type=rpm-md
+baseurl=https://download.arangodb.com/arangodb32/CentOS_7/
+gpgcheck=1
+gpgkey=https://download.arangodb.com/arangodb32/CentOS_7/repodata/repomd.xml.key
+enabled=1
