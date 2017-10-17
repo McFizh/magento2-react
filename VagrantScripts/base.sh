@@ -28,11 +28,9 @@ ntpdate -u pool.ntp.org
 systemctl enable ntpd
 systemctl enable mariadb
 systemctl enable arangodb3.service
-systemctl enable elasticsearch
 systemctl start ntpd
 systemctl start mariadb
 systemctl start arangodb3.service
-systemctl start elasticsearch
 
 PHP_VERSION="70"
 # PHP 7.0.x install:
@@ -84,9 +82,11 @@ sudo -u vagrant npm install
 # Enable more services
 systemctl enable nginx
 systemctl enable php70-php-fpm
+systemctl enable elasticsearch
 
 systemctl start nginx
 systemctl start php70-php-fpm
+systemctl start elasticsearch
 
 # Install magento
 cd /services/magento
@@ -99,6 +99,18 @@ sudo -u vagrant php bin/magento setup:install \
 # Create magento integration
 cd /services/tools
 sudo -u vagrant php integration.php
+
+# Install composer
+cp /vagrant/VagrantScripts/composer.phar /usr/local/bin/composer
+
+# Install ElasticIndexer module
+cd /services/magento
+
+sudo -u vagrant composer config repositories.0 vcs https://github.com/mcfizh/elasticindexer
+sudo -u vagrant composer require --prefer-source "mcfish/elasticindexer"
+
+sudo -u vagrant php bin/magento setup:upgrade
+sudo -u vagrant php bin/magento setup:di:compile
 
 # Create cron job for vagrant user
 sudo -u vagrant crontab /vagrant/VagrantScripts/cron
