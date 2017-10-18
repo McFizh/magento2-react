@@ -11,6 +11,7 @@ const server = new Hapi.Server();
 console.log( 'Reading in magento categories...' );
 MageClient.init(ApiConfig, AppConfig);
 MageClient.doCategoryRequest();
+MageClient.doCmsRequest();
 
 setTimeout( () => {
 	MageClient.getCategories();

@@ -92,7 +92,7 @@ function handleCatLoaderEvent() {
             catLoader.iterator++;
 
             var catData = JSON.parse(result.text);
-            console.log(catData);
+            //console.log(catData);
 
             if( catLoader.iterator < catLoader.count ) {
                 handleCatLoaderEvent();
@@ -161,8 +161,33 @@ function handleCategoryRequestResponse(err, res) {
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+function doCmsRequest() {
+    SuperAgent
+        .get(AppConfig.magentouri+"/index.php/rest/V1/cmsPage/search")
+        .query({
+		"searchCriteria[filter_groups][0][filters][0][field]": "page_id",
+		"searchCriteria[filter_groups][0][filters][0][value]": 0,
+		"searchCriteria[filter_groups][0][filters][0][condition_type]": "gt"
+	})
+        .set('Authorization','Bearer '+ApiConfig.token)
+        .end(handleCmsRequestResponse);
+}
+
+
+function handleCmsRequestResponse(err, res) {
+    if(err) {
+	console.log(err);
+        return;
+    }
+
+    console.log(res.text);
+}
+
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 module.exports = {
     init: init,
     doCategoryRequest: doCategoryRequest,
+    doCmsRequest: doCmsRequest,
     getCategories: getCategories
 };

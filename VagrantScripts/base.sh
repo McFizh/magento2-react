@@ -79,6 +79,10 @@ sudo -u vagrant npm run build
 cd ../proxy ; rm -rf node_modules
 sudo -u vagrant npm install
 
+# Reduce elasticsearch memory usage
+sed -ie 's/Xms2g/Xms768m/' /etc/elasticsearch/jvm.options
+sed -ie 's/Xmx2g/Xmx768m/' /etc/elasticsearch/jvm.options
+
 # Enable more services
 systemctl enable nginx
 systemctl enable php70-php-fpm
@@ -106,8 +110,8 @@ cp /vagrant/VagrantScripts/composer.phar /usr/local/bin/composer
 # Install ElasticIndexer module
 cd /services/magento
 
-sudo -u vagrant composer config repositories.0 vcs https://github.com/mcfizh/elasticindexer
-sudo -u vagrant composer require --prefer-source "mcfish/elasticindexer"
+sudo -u vagrant /usr/local/bin/composer config repositories.0 vcs https://github.com/mcfizh/elasticindexer
+sudo -u vagrant /usr/local/bin/composer require --prefer-source "mcfish/elasticindexer"
 
 sudo -u vagrant php bin/magento setup:upgrade
 sudo -u vagrant php bin/magento setup:di:compile
