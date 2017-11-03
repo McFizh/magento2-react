@@ -1,8 +1,8 @@
-This repo contains the following: Magento 2.1.9, React UI and Hapi.js REST proxy between React and Magento. If you just want to play around, provided vagrant scripts create ready to use environment.
+This repo contains the following: Magento 2.2.0, React UI and Hapi.js REST proxy between React and Magento. If you just want to play around, provided vagrant scripts create ready to use environment.
 
 * Vagrant environment
 
-Before starting up virtual machine, replace empty file "Magento-CE-2.1.9_sample_data-2017-09-13-04-06-27.tar.bz2" in VagrantScripts-folder with a proper downloaded copy of magento with sampledata. This can't be done automatically, thanks to some braindead policy of keeping downloads behind login.
+Before starting up virtual machine, replace empty file "Magento-CE-2.2.0_sample_data-2017-09-26-08-16-53.tar.bz2" in VagrantScripts-folder with a proper downloaded copy of magento with sampledata. This can't be done automatically, thanks to some braindead policy of keeping downloads behind login.
 
 Vagrantfile assumes you are using vmware provider, make necessary changes if using something else. To try out the environment, start up virtual machine with command "vagrant up". This takes some time, so reserve lots of coffee :)
 

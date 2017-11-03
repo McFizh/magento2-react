@@ -94,7 +94,7 @@ systemctl start elasticsearch
 
 # Install magento
 cd /services/magento
-sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.1.9_sample_data-2017-09-13-04-06-27.tar.bz2
+sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.2.0_sample_data-2017-09-26-08-16-53.tar.bz2
 sudo -u vagrant php bin/magento setup:install \
     --admin-firstname=vagrant --admin-lastname=vagrant --admin-user=admin\
     --admin-password=pass1234 --admin-email="changeme@mailinator.com" --backend-frontname="admin_abc1"\
