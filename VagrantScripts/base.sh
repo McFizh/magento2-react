@@ -9,10 +9,11 @@ sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
 yum install -q -y epel-release
 
-# Install mariadb & elastic & arangodb repos
+# Install mariadb , elastic , arangodb and node.js 8 repos
 curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 cp /vagrant/VagrantScripts/elastic.repo /etc/yum.repos.d/
 cp /vagrant/VagrantScripts/arangodb.repo /etc/yum.repos.d/
+curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
 
 # Enable installation after epel is installed
 yum install -q -y ntp vim-enhanced wget git nodejs MariaDB-server nginx tree elasticsearch java-1.8.0-openjdk-headless

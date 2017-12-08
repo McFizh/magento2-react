@@ -236,7 +236,7 @@ function handleCmsRequestResponse(err, res) {
 
                     // If document was not found at all, means that it has been removed from magento
                     if(documentFound == 0) {
-                        pageCollection.remove({ 
+                        //pageCollection.remove({ 
                     }
 
                     //
