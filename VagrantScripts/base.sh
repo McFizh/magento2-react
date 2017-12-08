@@ -43,6 +43,7 @@ yum install -q -y \
   php${PHP_VERSION}-php-gd \
   php${PHP_VERSION}-php-mcrypt \
   php${PHP_VERSION}-php-zip \
+  php${PHP_VERSION}-php-soap \
   php${PHP_VERSION}-php-opcache \
   php${PHP_VERSION}-php-intl \
   php${PHP_VERSION}-php-xml
@@ -94,7 +95,7 @@ systemctl start elasticsearch
 
 # Install magento
 cd /services/magento
-sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.2.0_sample_data-2017-09-26-08-16-53.tar.bz2
+sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.2.1_sample_data-2017-11-04-12-09-15.tar.bz2
 sudo -u vagrant php bin/magento setup:install \
     --admin-firstname=vagrant --admin-lastname=vagrant --admin-user=admin\
     --admin-password=pass1234 --admin-email="changeme@mailinator.com" --backend-frontname="admin_abc1"\
