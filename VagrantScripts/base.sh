@@ -101,10 +101,6 @@ sudo -u vagrant php bin/magento setup:install \
     --admin-password=pass1234 --admin-email="changeme@mailinator.com" --backend-frontname="admin_abc1"\
     --base-url=http://localhost:3090/
 
-# Create magento integration
-cd /services/tools
-sudo -u vagrant php integration.php
-
 # Install composer
 cp /vagrant/VagrantScripts/composer.phar /usr/local/bin/composer
 
@@ -116,6 +112,11 @@ sudo -u vagrant /usr/local/bin/composer require --prefer-source "mcfish/elastici
 
 sudo -u vagrant php bin/magento setup:upgrade
 sudo -u vagrant php bin/magento setup:di:compile
+
+# Create magento integration & change config values
+cd /services/tools
+sudo -u vagrant php integration.php
+sudo -u vagrant php enableSearch.php
 
 # Create cron job for vagrant user
 sudo -u vagrant crontab /vagrant/VagrantScripts/cron
