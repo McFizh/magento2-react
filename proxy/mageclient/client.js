@@ -239,11 +239,13 @@ function handleCmsRequestResponse(err, res) {
                         //pageCollection.remove({ 
                     }
 
-                    //
-                    if(currentPagesCursor.hasNext())
+                    // setImmediate is used to flatten call stack
+                    if(currentPagesCursor.hasNext()) {
                         setImmediate( processNextDoc, [ cursor ] );
-                    else
+                    } else {
                         storeRemaining();
+                    }
+
                 }).catch( (err) => {
                     console.log(err);
                 });

@@ -1,8 +1,10 @@
 var mageClient;
 
-function returnCategoryData(request, reply) {
+function returnCategoryData(request, h) {
     var catData = mageClient.getCategories(true);
-    reply(catData).code(200);
+    return h.
+        response(catData).
+        code(200);
 }
 
 

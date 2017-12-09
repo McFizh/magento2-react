@@ -4,7 +4,10 @@ const Hapi = require('hapi');
 const ApiConfig = require('./config.js');
 const AppConfig = require('./settings.js');
 const MageClient = require('./mageclient/client.js');
-const server = new Hapi.Server();
+const server = new Hapi.Server({
+    host: 'localhost',
+    port: 3100
+});
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::: //
 
@@ -18,15 +21,16 @@ setTimeout( () => {
 }, 5000);
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::: //
-server.connection({ port: 3100, host: 'localhost' });
-
-server.start((err) => {
-    if(err) {
-        throw err;
+async function start()
+{
+    try {
+        await server.start();
+        require("./clientapi/routes.js").routes(server, MageClient);
+        console.log( 'Server ( Hapi ver. '+server.version+') running at: ' + server.info.uri );
+    } catch(err) {
+        console.log(err);
+        process.exit(1);
     }
+}
 
-    require("./clientapi/routes.js").routes(server, MageClient);
-
-    console.log( 'Server running at: ' + server.info.uri );
-});
-
+start();
