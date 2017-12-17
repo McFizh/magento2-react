@@ -1,5 +1,23 @@
 This repo contains the following: Magento 2.2.1, React UI and Hapi.js REST proxy between react and magento. **This is not a react theme for magento**, but a complete replacement of the frontend. Idea is that the magento is running in the background as headless system, so customers never really interact directly with magento (except for the store owner who can access the admin interface).
 
+## Current state of this project
+
+[ ] WIP: ElasticIndexer module, which reads in data from magento. 
+[ ] WIP: Ajax search api for proxy and search support for client 
+[ ] WIP: CMS page support to proxy and client 
+[X] Proxy reads in categories and client can show them in dropdown
+[X] Vagrant sets up initial environment (react, node, magento)
+
+## Technical description
+
+* Magento is running almost in vanilla state. There are two things that are modified:
+** VagrantScripts/tools/integration.php script creates integration keys, so that proxy can read data from API
+** VagrantScripts/base.sh script enables elasticindexer module (WIP), which indexes product data to elasticsearch engine for proxy to use
+
+* Proxy that lives between magento and react app, is running on node.js 8.x.x and uses hapi.js framework. It stores it's data to arangodb (similar to mongodb) and also uses elasticsearch engine for ajax search. Proxy reads in data from magento using delta updates and then provides the data to react app in lesser amount of requests.
+
+* React frontend .. This application communicates only with node.js proxy, which caches the data for client use.
+
 ## Vagrant environment
 
 If you want to try this system out, I have provided vagrant scripts that create ready to use environment.
