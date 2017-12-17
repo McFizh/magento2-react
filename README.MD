@@ -11,8 +11,8 @@ This repo contains the following: Magento 2.2.1, React UI and Hapi.js REST proxy
 ## Technical description
 
 * Magento is running almost in vanilla state. There are two things that are modified:
-** VagrantScripts/tools/integration.php script creates integration keys, so that proxy can read data from API
-** VagrantScripts/base.sh script enables elasticindexer module (WIP), which indexes product data to elasticsearch engine for proxy to use
+  * VagrantScripts/tools/integration.php script creates integration keys, so that proxy can read data from API
+  * VagrantScripts/base.sh script enables elasticindexer module (WIP), which indexes product data to elasticsearch engine for proxy to use
 
 * Proxy that lives between magento and react app, is running on node.js 8.x.x and uses hapi.js framework. It stores it's data to arangodb (similar to mongodb) and also uses elasticsearch engine for ajax search. Proxy reads in data from magento using delta updates and then provides the data to react app in lesser amount of requests.
 
