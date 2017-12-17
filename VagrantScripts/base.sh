@@ -10,7 +10,7 @@ sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 yum install -q -y epel-release
 
 # Install mariadb , elastic , arangodb and node.js 8 repos
-curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+cp /vagrant/VagrantScripts/mariadb.repo /etc/yum.repos.d/
 cp /vagrant/VagrantScripts/elastic.repo /etc/yum.repos.d/
 cp /vagrant/VagrantScripts/arangodb.repo /etc/yum.repos.d/
 curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
@@ -57,6 +57,7 @@ arangosh --server.password=`cat /root/arangopass` < /vagrant/VagrantScripts/aran
 # Copy config files
 cp /vagrant/VagrantScripts/nginx.conf /etc/nginx/nginx.conf
 cp /vagrant/VagrantScripts/www.conf /etc/opt/remi/php70/php-fpm.d/www.conf
+sudo -u vagrant cp /vagrant/VagrantScripts/vimrc /home/vagrant/.vimrc
 
 #
 chgrp vagrant /var/opt/remi/php70/lib/php/session
@@ -108,16 +109,16 @@ cp /vagrant/VagrantScripts/composer.phar /usr/local/bin/composer
 # Install ElasticIndexer module
 cd /services/magento
 
-sudo -u vagrant /usr/local/bin/composer config repositories.0 vcs https://github.com/mcfizh/elasticindexer
-sudo -u vagrant /usr/local/bin/composer require --prefer-source "mcfish/elasticindexer"
+#sudo -u vagrant /usr/local/bin/composer config repositories.0 vcs https://github.com/mcfizh/elasticindexer
+#sudo -u vagrant /usr/local/bin/composer require --prefer-source "mcfish/elasticindexer"
 
-sudo -u vagrant php bin/magento setup:upgrade
-sudo -u vagrant php bin/magento setup:di:compile
+#sudo -u vagrant php bin/magento setup:upgrade
+#sudo -u vagrant php bin/magento setup:di:compile
 
 # Create magento integration & change config values
 cd /services/tools
 sudo -u vagrant php integration.php
-sudo -u vagrant php enableSearch.php
+#sudo -u vagrant php enableSearch.php
 
 # Create cron job for vagrant user
 sudo -u vagrant crontab /vagrant/VagrantScripts/cron
