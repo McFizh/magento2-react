@@ -2,11 +2,11 @@ This repo contains the following: Magento 2.2.1, React UI and Hapi.js REST proxy
 
 ## Current state of this project
 
-[ ] WIP: ElasticIndexer module, which reads in data from magento. 
-[ ] WIP: Ajax search api for proxy and search support for client 
-[ ] WIP: CMS page support to proxy and client 
-[X] Proxy reads in categories and client can show them in dropdown
-[X] Vagrant sets up initial environment (react, node, magento)
+[ ] WIP: ElasticIndexer module, which reads in data from magento.  
+[ ] WIP: Ajax search api for proxy and search support for client  
+[ ] WIP: CMS page support to proxy and client  
+[X] Proxy reads in categories and client can show them in dropdown  
+[X] Vagrant sets up initial environment (react, node, magento)  
 
 ## Technical description
 
