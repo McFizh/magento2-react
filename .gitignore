@@ -17,7 +17,7 @@ proxy/config.js
 .env.test.local
 .env.production.local
 .vagrant
-VagrantScripts/Magento-CE-2.1.9_sample_data-2017-09-13-04-06-27.tar.bz2
+VagrantScripts/Magento-CE-2.2.2_sample_data-2017-12-11-09-41-24.tar.bz2
 
 package-lock.json
 
