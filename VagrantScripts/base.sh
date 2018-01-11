@@ -57,7 +57,10 @@ arangosh --server.password=`cat /root/arangopass` < /vagrant/VagrantScripts/aran
 # Copy config files
 cp /vagrant/VagrantScripts/nginx.conf /etc/nginx/nginx.conf
 cp /vagrant/VagrantScripts/www.conf /etc/opt/remi/php70/php-fpm.d/www.conf
+
+# Setup more sane dev environment (vim + git settings)
 sudo -u vagrant cp /vagrant/VagrantScripts/vimrc /home/vagrant/.vimrc
+sudo -u vagrant git config --global color.ui auto
 
 #
 chgrp vagrant /var/opt/remi/php70/lib/php/session
