@@ -16,7 +16,7 @@ var catLoader = {
 var ApiConfig = {};
 var AppConfig = {};
 
-function init(apiConfig, appConfig) {
+async function init(apiConfig, appConfig) {
 
     // Is init called multiple times?
     if(arangodb != null)
@@ -29,22 +29,28 @@ function init(apiConfig, appConfig) {
     magentoCatIdList = [];
 
     // Create connection to ArangoDB
-    console.log("Connecting to db: "+AppConfig.arangodburi);
-    arangodb = new Arangojs.Database(AppConfig.arangodburi);
-    arangodb.useDatabase("magentoproxy");
+    console.log("Connecting to ArangoDB: "+AppConfig.arangoUri);
 
-    // Make sure that collections exist and clear then
-    for(let collectionName of ["cmspages","categories"]) {
-        let collection = arangodb.collection(collectionName);
-        collection.create()
-            .then( () => {} )
-            .catch( err => {
-                // Error code 1207 = collection already exists ; which is ok for us
-                // All other errors are not acceptable
-                if(err.errorNum != 1207)
-                    console.log(err);
-            } );
-	//collection.truncate();
+    arangodb = new Arangojs.Database({ url: AppConfig.arangoUri });
+    arangodb.useBasicAuth(AppConfig.arangoUname, AppConfig.arangoPass);
+    arangodb.useDatabase(AppConfig.arangoDb);
+
+    // List collections and see if we need to create them
+    var collections = await arangodb.listCollections();
+    var requiredCollections = ["cmspages","categories"];
+
+    for(let collection of collections) {
+        let idx = requiredCollections.indexOf(collection.name);
+
+        if(idx>=0) {
+            requiredCollections.splice(idx,1);
+        }
+    }
+
+    for(let collection of requiredCollections) {
+        console.log("Creating new collection: "+collection);
+        let acollection = arangodb.collection(collection);
+        await acollection.create();
     }
 
     // Create connection to elasticsearch
@@ -105,7 +111,6 @@ function handleCatLoaderEvent() {
             catLoader.iterator++;
 
             var catData = JSON.parse(result.text);
-            //console.log(catData);
 
             if( catLoader.iterator < catLoader.count ) {
                 handleCatLoaderEvent();

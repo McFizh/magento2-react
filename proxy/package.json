@@ -5,9 +5,9 @@
   "main": "index.js",
   "author": "",
   "dependencies": {
-    "arangojs": "5.8.0",
-    "elasticsearch": "14.0.0",
-    "hapi": "17.2.0",
+    "arangojs": "6.2.2",
+    "elasticsearch": "14.2.1",
+    "hapi": "17.2.3",
     "superagent": "3.8.2"
   }
 }

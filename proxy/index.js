@@ -10,19 +10,27 @@ const server = new Hapi.Server({
 });
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::: //
-
-console.log( 'Reading in magento categories...' );
-MageClient.init(ApiConfig, AppConfig);
-MageClient.doCategoryRequest();
-MageClient.doCmsRequest();
-
-setTimeout( () => {
-	MageClient.getCategories();
-}, 5000);
-
-// :::::::::::::::::::::::::::::::::::::::::::::::::: //
 async function start()
 {
+    // Init connection to arangodb & elasticsearch engine.. If this
+    // fails, nothing works so no reason to continue
+    try {
+        await MageClient.init(ApiConfig, AppConfig);
+    } catch(err) {
+        console.log(err);
+        process.exit(1);
+    }
+
+    //
+    console.log( 'Reading in magento categories...' );
+    MageClient.doCategoryRequest();
+    MageClient.doCmsRequest();
+
+    setTimeout( () => {
+        MageClient.getCategories();
+    }, 5000);
+
+    // Start up hapi
     try {
         await server.start();
         require("./clientapi/routes.js").routes(server, MageClient);
