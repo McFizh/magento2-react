@@ -109,6 +109,11 @@ sudo -u vagrant php bin/magento setup:install \
 # Install composer
 cp /vagrant/VagrantScripts/composer.phar /usr/local/bin/composer
 
+# Disable magentos caches and enable developer mode
+sudo -u vagrant php bin/magento cache:disable
+sudo -u vagrant php bin/magento cache:flush
+sudo -u vagrant php bin/magento deploy:mode:set developer
+
 # Install ElasticIndexer module
 cd /services/magento
 
