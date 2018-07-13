@@ -1,17 +1,13 @@
-var mageClient;
+const mageClient = require('../mageclient/client');
 
 function returnCategoryData(request, h) {
     var catData = mageClient.getCategories(true);
-    return h.
-        response(catData).
-        code(200);
+    return h.response(catData).code(200);
 }
 
 
-module.exports.routes = function(server, mageclient) {
-    mageClient = mageclient;
-
-    let routes = [
+module.exports.routes = function(server) {
+    server.route([
         {
             method: 'GET',
             path: '/api/categories',
@@ -19,11 +15,9 @@ module.exports.routes = function(server, mageclient) {
                 auth: false,
                 handler: returnCategoryData,
                 cors: {
-                    origin: ["http://localhost:3080","http://localhost:3000"],
+                    origin: ['http://localhost:3080','http://localhost:3000'],
                 }
             }
         }
-    ];
-
-    server.route(routes);
-}
+    ]);
+};

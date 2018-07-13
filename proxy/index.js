@@ -1,28 +1,29 @@
 'use strict';
 
 const Hapi = require('hapi');
-const ApiConfig = require('./config.js');
-const AppConfig = require('./settings.js');
+
 const MageClient = require('./mageclient/client.js');
-const server = new Hapi.Server({
-    host: 'localhost',
-    port: 3100
-});
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::: //
-async function start()
+async function init()
 {
     // Init connection to arangodb & elasticsearch engine.. If this
     // fails, nothing works so no reason to continue
     try {
-        await MageClient.init(ApiConfig, AppConfig);
+        await MageClient.init();
     } catch(err) {
+        /* eslint-disable no-console */
         console.log(err);
+        /* eslint-enable no-console */
         process.exit(1);
     }
 
     //
-    console.log( 'Reading in magento categories...' );
+    
+    /* eslint-disable no-console */
+    console.log( '>> Reading in magento categories...' );
+    /* eslint-enable no-console */
+
     MageClient.doCategoryRequest();
     MageClient.doCmsRequest();
 
@@ -30,15 +31,39 @@ async function start()
         MageClient.getCategories();
     }, 5000);
 
+    // Create new hapi server instance
+    const server = new Hapi.Server({
+        host: 'localhost',
+        port: 3100,
+        load: {
+            sampleInterval: 1000
+        }
+    });
+
+    // Register modules
+    await server.register([
+        
+    ]);
+
+    // Register routes
+    require("./clientapi/routes.js").routes(server);
+
     // Start up hapi
     try {
         await server.start();
-        require("./clientapi/routes.js").routes(server, MageClient);
-        console.log( 'Server ( Hapi ver. '+server.version+') running at: ' + server.info.uri );
     } catch(err) {
+        /* eslint-disable no-console */
         console.log(err);
+        /* eslint-enable no-console */
         process.exit(1);
     }
+
+    return server;
 }
 
-start();
+// :::::::::::::::::::::::::::::::::::::::::::::::::: //
+init().then((server) => {
+    /* eslint-disable no-console */
+    console.log('>> HTTP server running on '+server.info.host+':'+server.info.port);
+    /* eslint-enable no-console */
+});

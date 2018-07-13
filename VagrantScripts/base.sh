@@ -100,7 +100,7 @@ systemctl start elasticsearch
 
 # Install magento
 cd /services/magento
-sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.2.3_sample_data-2018-02-23-12-18-17.tar.bz2
+sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.2.5_sample_data-2018-06-26-09-49-38.tar.bz2
 sudo -u vagrant php bin/magento setup:install \
     --admin-firstname=vagrant --admin-lastname=vagrant --admin-user=admin\
     --admin-password=pass1234 --admin-email="changeme@mailinator.com" --backend-frontname="admin_abc1"\
@@ -110,9 +110,9 @@ sudo -u vagrant php bin/magento setup:install \
 cp /vagrant/VagrantScripts/composer.phar /usr/local/bin/composer
 
 # Disable magentos caches and enable developer mode
-sudo -u vagrant php bin/magento cache:disable
-sudo -u vagrant php bin/magento cache:flush
-sudo -u vagrant php bin/magento deploy:mode:set developer
+#sudo -u vagrant php bin/magento cache:disable
+#sudo -u vagrant php bin/magento cache:flush
+#sudo -u vagrant php bin/magento deploy:mode:set developer
 
 # Install ElasticIndexer module
 cd /services/magento

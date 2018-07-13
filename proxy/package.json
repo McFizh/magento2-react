@@ -1,13 +1,22 @@
 {
   "name": "proxy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Rest proxy",
   "main": "index.js",
-  "author": "",
+  "author": "Pekka Harjamäki <spamtrap_github@mcfish.org>",
+  "scripts": {
+    "lint": "./node_modules/eslint/bin/eslint.js **/*.js --ignore-pattern node_modules/ ; exit 0"
+  },
   "dependencies": {
-    "arangojs": "6.2.2",
-    "elasticsearch": "14.2.1",
-    "hapi": "17.2.3",
-    "superagent": "3.8.2"
+    "arangojs": "6.4.0",
+    "elasticsearch": "15.1.1",
+    "good": "^8.1.1",
+    "good-file": "^6.0.1",
+    "good-squeeze": "^5.1.0",
+    "hapi": "17.5.2",
+    "superagent": "3.8.3"
+  },
+  "devDependencies": {
+    "eslint": "^5.1.0"
   }
 }

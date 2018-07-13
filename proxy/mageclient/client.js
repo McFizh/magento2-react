@@ -2,6 +2,9 @@ const Arangojs = require('arangojs');
 const SuperAgent = require('superagent');
 const ElasticSearch = require('elasticsearch');
 
+const AppConfig = require('../settings');
+const ApiConfig = require('../config');
+
 var arangodb = null;
 var elasticsearch = null;
 
@@ -13,23 +16,21 @@ var catLoader = {
     count: 0
 };
 
-var ApiConfig = {};
-var AppConfig = {};
-
-async function init(apiConfig, appConfig) {
+async function init() {
 
     // Is init called multiple times?
     if(arangodb != null)
         return;
 
     //
-    ApiConfig = apiConfig;
-    AppConfig = appConfig;
     magentoCategories = [];
     magentoCatIdList = [];
 
     // Create connection to ArangoDB
-    console.log("Connecting to ArangoDB: "+AppConfig.arangoUri);
+
+    /* eslint-disable no-console */
+    console.log('Connecting to ArangoDB: '+AppConfig.arangoUri);
+    /* eslint-enable no-console */
 
     arangodb = new Arangojs.Database({ url: AppConfig.arangoUri });
     arangodb.useBasicAuth(AppConfig.arangoUname, AppConfig.arangoPass);
@@ -37,7 +38,7 @@ async function init(apiConfig, appConfig) {
 
     // List collections and see if we need to create them
     var collections = await arangodb.listCollections();
-    var requiredCollections = ["cmspages","categories"];
+    var requiredCollections = ['cmspages','categories'];
 
     for(let collection of collections) {
         let idx = requiredCollections.indexOf(collection.name);
@@ -48,7 +49,10 @@ async function init(apiConfig, appConfig) {
     }
 
     for(let collection of requiredCollections) {
-        console.log("Creating new collection: "+collection);
+        /* eslint-disable no-console */
+        console.log('Creating new collection: '+collection);
+        /* eslint-enable no-console */
+
         let acollection = arangodb.collection(collection);
         await acollection.create();
     }
@@ -101,7 +105,7 @@ function loadCategoryData() {
 }
 
 function handleCatLoaderEvent() {
-    var uri = AppConfig.magentouri+"/index.php/rest/V1/categories/"+magentoCatIdList[catLoader.iterator].id;
+    var uri = AppConfig.magentouri+'/index.php/rest/V1/categories/'+magentoCatIdList[catLoader.iterator].id;
 
     SuperAgent
         .get( uri )
@@ -124,7 +128,7 @@ function handleCatLoaderEvent() {
 
 function doCategoryRequest() {
     SuperAgent
-        .get(AppConfig.magentouri+"/index.php/rest/V1/categories")
+        .get(AppConfig.magentouri+'/index.php/rest/V1/categories')
         .set('Authorization','Bearer '+ApiConfig.token)
         .end(handleCategoryRequestResponse);
 }
@@ -181,11 +185,11 @@ function handleCategoryRequestResponse(err, res) {
 
 function doCmsRequest() {
     SuperAgent
-        .get(AppConfig.magentouri+"/index.php/rest/V1/cmsPage/search")
+        .get(AppConfig.magentouri+'/index.php/rest/V1/cmsPage/search')
         .query({
-    	    "searchCriteria[filter_groups][0][filters][0][field]": "page_id",
-    	    "searchCriteria[filter_groups][0][filters][0][value]": 0,
-    	    "searchCriteria[filter_groups][0][filters][0][condition_type]": "gt"
+            'searchCriteria[filter_groups][0][filters][0][field]': 'page_id',
+            'searchCriteria[filter_groups][0][filters][0][value]': 0,
+            'searchCriteria[filter_groups][0][filters][0][condition_type]': 'gt'
         })
         .set('Authorization','Bearer '+ApiConfig.token)
         .end(handleCmsRequestResponse);
@@ -199,7 +203,7 @@ function handleCmsRequestResponse(err, res) {
     }
 
     let jsonresp = JSON.parse(res.text);
-    let pageCollection = arangodb.collection("cmspages");
+    let pageCollection = arangodb.collection('cmspages');
     let newDocuments = [];
 
     for(let page of jsonresp.items) {
@@ -210,7 +214,7 @@ function handleCmsRequestResponse(err, res) {
             active: page.active,
             created: page.creation_time,
             updated: page.update_time
-        });;
+        });
     }
 
     pageCollection.all().then( (currentPagesCursor) => {
