@@ -47,6 +47,7 @@ yum install -q -y \
   php${PHP_VERSION}-php-soap \
   php${PHP_VERSION}-php-opcache \
   php${PHP_VERSION}-php-intl \
+  php${PHP_VERSION}-php-bcmath \
   php${PHP_VERSION}-php-xml
 
 ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php

@@ -10,5 +10,10 @@ Vagrant.configure(2) do |config|
         v.vmx["numvcpus"] = "4"
     end
 
+    config.vm.provider "libvirt" do |v|
+        v.cpus = 4
+        v.memory = 3072
+    end
+
 end
 
