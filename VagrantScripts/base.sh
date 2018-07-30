@@ -112,7 +112,6 @@ cp /vagrant/VagrantScripts/composer.phar /usr/local/bin/composer
 
 # Disable magentos caches and enable developer mode
 #sudo -u vagrant php bin/magento cache:disable
-#sudo -u vagrant php bin/magento cache:flush
 #sudo -u vagrant php bin/magento deploy:mode:set developer
 
 # Install ElasticIndexer module
@@ -127,7 +126,10 @@ cd /services/magento
 # Create magento integration & change config values
 cd /services/tools
 sudo -u vagrant php integration.php
-#sudo -u vagrant php enableSearch.php
+sudo -u vagrant php changeConfigs.php
+
+# Flush cache
+sudo -u vagrant php bin/magento cache:flush
 
 # Create cron job for vagrant user
 sudo -u vagrant crontab /vagrant/VagrantScripts/cron
