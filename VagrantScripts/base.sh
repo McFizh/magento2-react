@@ -80,11 +80,11 @@ mysql -u root -e"create database magento2"
 
 # Reinstall npm packages
 cd /vagrant/frontend ; rm -rf node_modules
-sudo -u vagrant npm install
+sudo -u vagrant npm ci
 sudo -u vagrant npm run build
 
 cd ../proxy ; rm -rf node_modules
-sudo -u vagrant npm install
+sudo -u vagrant npm ci
 
 # Reduce elasticsearch memory usage
 sed -ie 's/Xms2g/Xms768m/' /etc/elasticsearch/jvm.options
