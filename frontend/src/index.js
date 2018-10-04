@@ -1,20 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReduxPromise from 'redux-promise';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { BrowserRouter, Route } from 'react-router-dom';
+
+import AppRouter from './AppRouter';
+import reducers from './reducers';
 
 import './css/index.css';
 
-import App from './App';
-
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import ReduxPromise from 'redux-promise';
-import reducers from './reducers';
-
+//
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
+//
 ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(reducers)}>
-        <App />
-    </Provider>
+    <BrowserRouter>
+        <Provider store={createStoreWithMiddleware(reducers)}>
+            <Route path='/' component={AppRouter}/>
+        </Provider>
+    </BrowserRouter>
     , document.getElementById('root')
 );
