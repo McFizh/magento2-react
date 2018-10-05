@@ -1,4 +1,4 @@
-This repo contains the following: Magento 2.2.5, React UI and Hapi.js REST proxy between react and magento. **This is not a react theme for magento**, but a complete replacement of the frontend. Idea is that the magento is running in the background as headless system, so customers never really interact directly with magento (except for the store owner who can access the admin interface).
+This repo contains the following: Magento 2.2.6, React UI and Hapi.js REST proxy between react and magento. **This is not a react theme for magento**, but a complete replacement of the frontend. Idea is that the magento is running in the background as headless system, so customers never really interact directly with magento (except for the store owner who can access the admin interface).
 
 ## Current state of this project
 
@@ -22,7 +22,7 @@ This repo contains the following: Magento 2.2.5, React UI and Hapi.js REST proxy
 
 If you want to try this system out, I have provided vagrant scripts that create ready to use environment.
 
-Before starting up environment, **replace** empty file "Magento-CE-2.2.5_sample_data-2018-06-26-09-49-38.tar.bz2" in VagrantScripts-folder with a proper downloaded copy of magento with sampledata. This can't be done automatically, thanks to some braindead policy of keeping downloads behind login.
+Before starting up environment, **replace** empty file "Magento-CE-2.2.6_sample_data-2018-09-07-02-47-41.tar.bz2" in VagrantScripts-folder with a proper downloaded copy of magento with sampledata. This can't be done automatically, thanks to some braindead policy of keeping downloads behind login.
 
 Vagrantfile assumes you are using vmware fusion (osx) provider, make necessary changes if using something else like virtualbox. To try out the environment, start up virtual machine with command **vagrant up** . This takes some time, so reserve lots of coffee :)
 
