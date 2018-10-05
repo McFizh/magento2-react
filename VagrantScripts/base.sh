@@ -129,6 +129,7 @@ sudo -u vagrant php integration.php
 sudo -u vagrant php changeConfigs.php
 
 # Flush cache
+cd /services/magento
 sudo -u vagrant php bin/magento cache:flush
 
 # Create cron job for vagrant user
