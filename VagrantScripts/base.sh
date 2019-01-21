@@ -9,18 +9,13 @@ sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
 yum install -q -y epel-release
 
-# Install mariadb , elastic , arangodb and node.js 8 repos
-cp /vagrant/VagrantScripts/mariadb.repo /etc/yum.repos.d/
+# Install mariadb , elastic and node.js 10 repos
 cp /vagrant/VagrantScripts/elastic.repo /etc/yum.repos.d/
-cp /vagrant/VagrantScripts/arangodb.repo /etc/yum.repos.d/
-curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+curl --silent --location https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -
+curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash -
 
 # Enable installation after epel is installed
 yum install -q -y ntp vim-enhanced wget git nodejs MariaDB-server nginx tree elasticsearch java-1.8.0-openjdk-headless
-
-# Install arangodb, capture root password
-yum install -q -y arangodb3 > /tmp/out1 2>/tmp/out2
-grep "the current password is" /tmp/out1 | sed -E "s/.*'([a-zA-Z0-9]*)'.*/\1/" > /root/arangopass
 
 # Set the correct time
 ntpdate -u pool.ntp.org
@@ -28,13 +23,11 @@ ntpdate -u pool.ntp.org
 # Enable & start ntp/mariadb
 systemctl enable ntpd
 systemctl enable mariadb
-systemctl enable arangodb3.service
 systemctl start ntpd
 systemctl start mariadb
-systemctl start arangodb3.service
 
-PHP_VERSION="70"
-# PHP 7.0.x install:
+PHP_VERSION="71"
+# PHP 7.1.x install:
 yum install -q -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 yum install -q -y \
   php${PHP_VERSION}-php-cli \
@@ -52,31 +45,33 @@ yum install -q -y \
 
 ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php
 
-# Create arango database, this is done after installing php to give ADB time to settle
-arangosh --server.password=`cat /root/arangopass` < /vagrant/VagrantScripts/arangoCreateDb
-
 # Copy config files
 cp /vagrant/VagrantScripts/nginx.conf /etc/nginx/nginx.conf
-cp /vagrant/VagrantScripts/www.conf /etc/opt/remi/php70/php-fpm.d/www.conf
+cp /vagrant/VagrantScripts/www.conf /etc/opt/remi/php71/php-fpm.d/www.conf
 
 # Setup more sane dev environment (vim + git settings)
 sudo -u vagrant cp /vagrant/VagrantScripts/vimrc /home/vagrant/.vimrc
 sudo -u vagrant git config --global color.ui auto
 
 #
-chgrp vagrant /var/opt/remi/php70/lib/php/session
-chgrp vagrant /var/opt/remi/php70/lib/php/wsdlcache
-chgrp vagrant /var/opt/remi/php70/lib/php/opcache
-chown vagrant /var/opt/remi/php70/log/php-fpm
+chgrp vagrant /var/opt/remi/php71/lib/php/session
+chgrp vagrant /var/opt/remi/php71/lib/php/wsdlcache
+chgrp vagrant /var/opt/remi/php71/lib/php/opcache
+chown vagrant /var/opt/remi/php71/log/php-fpm
 
 # Increase php memory limit
-sed -i 's/memory_limit = 128M/memory_limit = 770M/' /etc/opt/remi/php70/php.ini
+sed -i 's/memory_limit = 128M/memory_limit = 770M/' /etc/opt/remi/php71/php.ini
 
-# Create directory and database for magento
+# Create directory and database for magento + proxy
 mkdir -p /services/magento
 cp -R /vagrant/VagrantScripts/tools /services
 chown vagrant:vagrant -R /services
-mysql -u root -e"create database magento2"
+
+mysqladmin -u root create magento2
+mysqladmin -u root create magentoproxy
+mysql -u root -e "grant all privileges on magento2.* to 'magento'@'localhost' identified by 'magentopass1234';"
+mysql -u root -e "grant all privileges on magentoproxy.* to 'mageproxy'@'localhost' identified by 'proxypass1234';"
+mysqladmin -u root flush-privileges
 
 # Reinstall npm packages
 cd /vagrant/frontend ; rm -rf node_modules
@@ -92,17 +87,18 @@ sed -ie 's/Xmx2g/Xmx768m/' /etc/elasticsearch/jvm.options
 
 # Enable more services
 systemctl enable nginx
-systemctl enable php70-php-fpm
+systemctl enable php71-php-fpm
 systemctl enable elasticsearch
 
 systemctl start nginx
-systemctl start php70-php-fpm
+systemctl start php71-php-fpm
 systemctl start elasticsearch
 
 # Install magento
 cd /services/magento
 sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.2.7_sample_data-2018-11-20-11-35-47.tar.bz2
 sudo -u vagrant php bin/magento setup:install \
+    --db-user=magento --db-password=magentopass1234 --db-name=magento2 \
     --admin-firstname=vagrant --admin-lastname=vagrant --admin-user=admin\
     --admin-password=pass1234 --admin-email="changeme@mailinator.com" --backend-frontname="admin_abc1"\
     --base-url=http://localhost:3090/

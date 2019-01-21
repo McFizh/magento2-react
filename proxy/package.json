@@ -8,13 +8,12 @@
     "lint": "./node_modules/eslint/bin/eslint.js **/*.js --ignore-pattern node_modules/ ; exit 0"
   },
   "dependencies": {
-    "arangojs": "6.9.0",
-    "elasticsearch": "15.2.0",
-    "good": "8.1.1",
+    "elasticsearch": "15.3.0",
+    "good": "8.1.2",
     "good-file": "6.0.1",
     "good-squeeze": "5.1.0",
-    "hapi": "17.7.0",
-    "superagent": "3.8.3"
+    "hapi": "18.0.0",
+    "superagent": "4.1.0"
   },
   "devDependencies": {
     "eslint": "5.8.0"

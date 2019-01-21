@@ -1,5 +1,0 @@
-db._createDatabase("magentoproxy");
-var users = require("@arangodb/users");
-users.save("proxy", "simplepassword",true);
-users.grantDatabase("proxy", "magentoproxy","rw");
-users.grantCollection("proxy","magentoproxy","*","rw");
