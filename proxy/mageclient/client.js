@@ -1,11 +1,11 @@
-const MySql = require('mysql');
 const SuperAgent = require('superagent');
 const ElasticSearch = require('elasticsearch');
 
 const AppConfig = require('../settings');
 const ApiConfig = require('../config');
 
-var mysql = null;
+const Database = require('../lib/database');
+
 var elasticsearch = null;
 
 var magentoCategories;
@@ -17,27 +17,12 @@ var catLoader = {
 };
 
 async function init() {
-
-    // Is init called multiple times?
-    if(mysql != null)
-        return;
-
     //
     magentoCategories = [];
     magentoCatIdList = [];
 
     // Create connection to database
-
-    /* eslint-disable no-console */
-    console.log('Connecting to MySQL: '+AppConfig.dbhost);
-    /* eslint-enable no-console */
-
-    mysql = MySql.createConnection({
-        host: AppConfig.dbhost,
-        user: AppConfig.dbuser,
-        password: AppConfig.dbpass,
-        database: AppConfig.dbname
-    });
+    await Database.connect();
 
     // Create connection to elasticsearch
     elasticsearch = new ElasticSearch.Client({

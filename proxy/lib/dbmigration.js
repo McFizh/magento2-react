@@ -1,25 +1,11 @@
-const Migrate = require('migrate');
+const DBMigrate = require('db-migrate');
 
-function migrate() {
-    return new Promise( (resolve, reject) => {
-        Migrate.load({
-            stateStore: '.migrate'
-        }, (err,set) => {
-            if (err) {
-                reject(err);
-            }
+async function migrate() {
+    var dbmigrate = DBMigrate.getInstance(true);
 
-            set.up( err => {
-                if (err) {
-                    reject(err);
-                }
-                /* eslint-disable no-console */
-                console.log( '>> Migrations successfully ran' );
-                /* eslint-enable no-console */
-                resolve();
-            });
-        });
-    });
+    await dbmigrate.run();
+
+    console.log( '>> Migrations successfully ran' );
 }
 
 module.exports = {
