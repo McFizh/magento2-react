@@ -51,9 +51,9 @@ $consumer = $oauthService->loadConsumer($consumerId)->getData();
 $token = $oauthService->getAccessToken($consumerId)->getData();
 
 file_put_contents("/vagrant/proxy/config.js","module.exports = {
- consumerKey:'".$consumer['key']."',
- consumerSecret:'".$consumer['secret']."',
- token: '".$token['token']."',
- tokenSecret: '".$token['secret']."'
+    consumerKey:'".$consumer['key']."',
+    consumerSecret:'".$consumer['secret']."',
+    token: '".$token['token']."',
+    tokenSecret: '".$token['secret']."'
 };
 ");

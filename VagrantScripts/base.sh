@@ -20,14 +20,17 @@ yum install -q -y ntp vim-enhanced wget git nodejs mysql-community-server mysql-
 # Set the correct time
 ntpdate -u pool.ntp.org
 
+# Replace mysql configuration
+cp /vagrant/VagrantScripts/my.cnf /etc/
+
 # Enable & start ntp/mariadb
 systemctl enable ntpd
-systemctl enable mariadb
+systemctl enable mysqld
 systemctl start ntpd
-systemctl start mariadb
+systemctl start mysqld
 
-PHP_VERSION="71"
 # PHP 7.1.x install:
+PHP_VERSION="71"
 yum install -q -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 yum install -q -y \
   php${PHP_VERSION}-php-cli \
@@ -67,11 +70,20 @@ mkdir -p /services/magento
 cp -R /vagrant/VagrantScripts/tools /services
 chown vagrant:vagrant -R /services
 
-mysqladmin -u root create magento2
-mysqladmin -u root create magentoproxy
-mysql -u root -e "grant all privileges on magento2.* to 'magento'@'localhost' identified by 'magentopass1234';"
-mysql -u root -e "grant all privileges on magentoproxy.* to 'mageproxy'@'localhost' identified by 'proxypass1234';"
-mysqladmin -u root flush-privileges
+# Change temp password to: Mysql#1234
+PASS=`grep "A temporary password is generated for" /var/log/mysqld.log | tail -1 | rev | cut -d" " -f 1 | rev`
+mysqladmin -u root -p"$PASS" password Mysql#1234
+echo "MySQL root password is: Mysql#1234"
+PASS="Mysql#1234"
+
+MYSQL_PWD="$PASS" mysqladmin -u root create magento2
+MYSQL_PWD="$PASS" mysqladmin -u root create magentoproxy
+MYSQL_PWD="$PASS" mysql -u root -e "create user 'magento'@'localhost' identified by 'Magentopass_1234'"
+MYSQL_PWD="$PASS" mysql -u root -e "grant all privileges on magento2.* to 'magento'@'localhost'"
+MYSQL_PWD="$PASS" mysql -u root -e "create user 'mageproxy'@'localhost' identified by 'Proxypass_1234'"
+MYSQL_PWD="$PASS" mysql -u root -e "grant all privileges on magentoproxy.* to 'mageproxy'@'localhost'"
+MYSQL_PWD="$PASS" mysqladmin -u root flush-privileges
+
 
 # Reinstall npm packages
 cd /vagrant/frontend ; rm -rf node_modules
@@ -98,7 +110,7 @@ systemctl start elasticsearch
 cd /services/magento
 sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.2.7_sample_data-2018-11-20-11-35-47.tar.bz2
 sudo -u vagrant php bin/magento setup:install \
-    --db-user=magento --db-password=magentopass1234 --db-name=magento2 \
+    --db-user=magento --db-password=Magentopass_1234 --db-name=magento2 \
     --admin-firstname=vagrant --admin-lastname=vagrant --admin-user=admin\
     --admin-password=pass1234 --admin-email="changeme@mailinator.com" --backend-frontname="admin_abc1"\
     --base-url=http://localhost:3090/

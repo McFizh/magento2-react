@@ -39,17 +39,6 @@ async function init() {
         database: AppConfig.dbname
     });
 
-    // List collections and see if we need to create them
-    var requiredCollections = ['cmspages','categories'];
-    for(let collection of requiredCollections) {
-        /* eslint-disable no-console */
-        console.log('Creating new collection: '+collection);
-        /* eslint-enable no-console */
-
-        let acollection = arangodb.collection(collection);
-        await acollection.create();
-    }
-
     // Create connection to elasticsearch
     elasticsearch = new ElasticSearch.Client({
         host: AppConfig.elasticuri,
@@ -211,54 +200,54 @@ function handleCmsRequestResponse(err, res) {
     }
 
     pageCollection.all().then( (currentPagesCursor) => {
-            // Save rest of the pages as new
-            function storeRemaining() {
+        // Save rest of the pages as new
+        function storeRemaining() {
+            for(let page of newDocuments) {
+                pageCollection.save(page).then(
+                    meta => console.log('Document saved:', meta._rev)
+                ).catch(
+                    err => console.error('Failed to save document:', err)
+                );
+            }
+        }
+
+        // Iterate through database and update / remove documents
+        function processNextDoc(cursor) {
+            currentPagesCursor.next().then( (doc) => {
+
+                // What should we do with this document
+                let documentFound=0; // 0 = not found, 1 = found same , 2 = found ; needs update
                 for(let page of newDocuments) {
-                    pageCollection.save(page).then(
-                        meta => console.log('Document saved:', meta._rev)
-                    ).catch(
-                        err => console.error('Failed to save document:', err)
-                    );
+                    if( page.key == doc.key ) {
+                        documentFound = 2;
+                        if(page.created == doc.created && page.updated == doc.updated)
+                            documentFound = 1;
+                    }
                 }
-            }
 
-            // Iterate through database and update / remove documents
-            function processNextDoc(cursor) {
-                currentPagesCursor.next().then( (doc) => {
+                // If document was not found at all, means that it has been removed from magento
+                if(documentFound == 0) {
+                    //pageCollection.remove({ 
+                }
 
-                    // What should we do with this document
-                    let documentFound=0; // 0 = not found, 1 = found same , 2 = found ; needs update
-                    for(let page of newDocuments) {
-                        if( page.key == doc.key ) {
-                            documentFound = 2;
-                            if(page.created == doc.created && page.updated == doc.updated)
-                                documentFound = 1;
-                        }
-                    }
+                // setImmediate is used to flatten call stack
+                if(currentPagesCursor.hasNext()) {
+                    setImmediate( processNextDoc, [ cursor ] );
+                } else {
+                    storeRemaining();
+                }
 
-                    // If document was not found at all, means that it has been removed from magento
-                    if(documentFound == 0) {
-                        //pageCollection.remove({ 
-                    }
+            }).catch( (err) => {
+                console.log(err);
+            });
+        }
 
-                    // setImmediate is used to flatten call stack
-                    if(currentPagesCursor.hasNext()) {
-                        setImmediate( processNextDoc, [ cursor ] );
-                    } else {
-                        storeRemaining();
-                    }
-
-                }).catch( (err) => {
-                    console.log(err);
-                });
-            }
-
-            // Start processing
-            if( currentPagesCursor.hasNext() ) {
-                processNextDoc(currentPagesCursor);
-            } else {
-                storeRemaining();
-            }
+        // Start processing
+        if( currentPagesCursor.hasNext() ) {
+            processNextDoc(currentPagesCursor);
+        } else {
+            storeRemaining();
+        }
 
     }).catch( (err) => {
         console.log(err);

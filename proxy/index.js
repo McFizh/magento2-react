@@ -3,11 +3,12 @@
 const Hapi = require('hapi');
 
 const MageClient = require('./mageclient/client.js');
+const Migrations = require('./lib/dbmigration.js');
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::: //
 async function init()
 {
-    // Init connection to arangodb & elasticsearch engine.. If this
+    // Init connection to mysql & elasticsearch engine.. If this
     // fails, nothing works so no reason to continue
     try {
         await MageClient.init();
@@ -18,17 +19,27 @@ async function init()
         process.exit(1);
     }
 
+    // Run database migrations
+    try {
+        await Migrations.migrate();
+    } catch(err) {
+        /* eslint-disable no-console */
+        console.log(err);
+        /* eslint-enable no-console */
+        process.exit(1);
+    }
+
     //
     
     /* eslint-disable no-console */
-    console.log( '>> Reading in magento categories...' );
+    console.log( '>> Reading in magento data for first time...' );
     /* eslint-enable no-console */
 
-    MageClient.doCategoryRequest();
-    MageClient.doCmsRequest();
+    // MageClient.doCategoryRequest();
+    // MageClient.doCmsRequest();
 
     setTimeout( () => {
-        MageClient.getCategories();
+        // MageClient.getCategories();
     }, 5000);
 
     // Create new hapi server instance
@@ -46,7 +57,7 @@ async function init()
     ]);
 
     // Register routes
-    require("./clientapi/routes.js").routes(server);
+    require('./lib/routes.js').routes(server);
 
     // Start up hapi
     try {

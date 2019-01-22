@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "Pekka Harjamäki <spamtrap_github@mcfish.org>",
   "scripts": {
-    "lint": "./node_modules/eslint/bin/eslint.js **/*.js --ignore-pattern node_modules/ ; exit 0"
+    "lint": "./node_modules/eslint/bin/eslint.js . ; exit 0"
   },
   "dependencies": {
     "elasticsearch": "15.3.0",
@@ -13,6 +13,7 @@
     "good-file": "6.0.1",
     "good-squeeze": "5.1.0",
     "hapi": "18.0.0",
+    "migrate": "1.6.2",
     "mysql": "2.16.0",
     "superagent": "4.1.0"
   },
