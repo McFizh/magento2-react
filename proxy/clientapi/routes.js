@@ -5,7 +5,6 @@ function returnCategoryData(request, h) {
     return h.response(catData).code(200);
 }
 
-
 module.exports.routes = function(server) {
     server.route([
         {

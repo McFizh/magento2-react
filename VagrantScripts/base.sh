@@ -9,13 +9,13 @@ sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
 yum install -q -y epel-release
 
-# Install mariadb , elastic and node.js 10 repos
+# Install mysql 8 , elastic and node.js 10 repos
 cp /vagrant/VagrantScripts/elastic.repo /etc/yum.repos.d/
-curl --silent --location https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -
+yum install -y https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm
 curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash -
 
 # Enable installation after epel is installed
-yum install -q -y ntp vim-enhanced wget git nodejs MariaDB-server nginx tree elasticsearch java-1.8.0-openjdk-headless
+yum install -q -y ntp vim-enhanced wget git nodejs mysql-community-server mysql-shell nginx tree elasticsearch java-1.8.0-openjdk-headless
 
 # Set the correct time
 ntpdate -u pool.ntp.org

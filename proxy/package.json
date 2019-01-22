@@ -13,6 +13,7 @@
     "good-file": "6.0.1",
     "good-squeeze": "5.1.0",
     "hapi": "18.0.0",
+    "mysql": "2.16.0",
     "superagent": "4.1.0"
   },
   "devDependencies": {

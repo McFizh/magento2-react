@@ -1,11 +1,11 @@
-const Arangojs = require('arangojs');
+const MySql = require('mysql');
 const SuperAgent = require('superagent');
 const ElasticSearch = require('elasticsearch');
 
 const AppConfig = require('../settings');
 const ApiConfig = require('../config');
 
-var arangodb = null;
+var mysql = null;
 var elasticsearch = null;
 
 var magentoCategories;
@@ -19,35 +19,28 @@ var catLoader = {
 async function init() {
 
     // Is init called multiple times?
-    if(arangodb != null)
+    if(mysql != null)
         return;
 
     //
     magentoCategories = [];
     magentoCatIdList = [];
 
-    // Create connection to ArangoDB
+    // Create connection to database
 
     /* eslint-disable no-console */
-    console.log('Connecting to ArangoDB: '+AppConfig.arangoUri);
+    console.log('Connecting to MySQL: '+AppConfig.dbhost);
     /* eslint-enable no-console */
 
-    arangodb = new Arangojs.Database({ url: AppConfig.arangoUri });
-    arangodb.useBasicAuth(AppConfig.arangoUname, AppConfig.arangoPass);
-    arangodb.useDatabase(AppConfig.arangoDb);
+    mysql = MySql.createConnection({
+        host: AppConfig.dbhost,
+        user: AppConfig.dbuser,
+        password: AppConfig.dbpass,
+        database: AppConfig.dbname
+    });
 
     // List collections and see if we need to create them
-    var collections = await arangodb.listCollections();
     var requiredCollections = ['cmspages','categories'];
-
-    for(let collection of collections) {
-        let idx = requiredCollections.indexOf(collection.name);
-
-        if(idx>=0) {
-            requiredCollections.splice(idx,1);
-        }
-    }
-
     for(let collection of requiredCollections) {
         /* eslint-disable no-console */
         console.log('Creating new collection: '+collection);
