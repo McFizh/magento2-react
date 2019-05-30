@@ -17,7 +17,7 @@ proxy/config.js
 .env.test.local
 .env.production.local
 .vagrant
-VagrantScripts/Magento-CE-2.2.6_sample_data-2018-09-07-02-47-41.tar.bz2
+VagrantScripts/Magento-CE-2.2.8_sample_data-2019-03-18-09-16-57.tar.bz2
 
 npm-debug.log*
 yarn-debug.log*

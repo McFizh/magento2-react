@@ -9,15 +9,15 @@
   },
   "dependencies": {
     "db-migrate": "0.11.5",
-    "elasticsearch": "15.3.0",
+    "elasticsearch": "^16.1.0",
     "good": "8.1.2",
     "good-file": "6.0.1",
     "good-squeeze": "5.1.0",
-    "hapi": "18.0.0",
-    "mysql": "2.16.0",
-    "superagent": "4.1.0"
+    "hapi": "^18.1.0",
+    "mysql": "^2.17.1",
+    "superagent": "^5.0.5"
   },
   "devDependencies": {
-    "eslint": "5.8.0"
+    "eslint": "^5.16.0"
   }
 }

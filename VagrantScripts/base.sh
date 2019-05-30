@@ -108,7 +108,7 @@ systemctl start elasticsearch
 
 # Install magento
 cd /services/magento
-sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.2.7_sample_data-2018-11-20-11-35-47.tar.bz2
+sudo -u vagrant tar xf /vagrant/VagrantScripts/Magento-CE-2.2.8_sample_data-2019-03-18-09-16-57.tar.bz2
 sudo -u vagrant php bin/magento setup:install \
     --db-user=magento --db-password=Magentopass_1234 --db-name=magento2 \
     --admin-firstname=vagrant --admin-lastname=vagrant --admin-user=admin\
