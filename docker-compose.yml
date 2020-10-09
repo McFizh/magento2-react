@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+  database:
+    image: mariadb:10.3
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql-root-pwd
+      - MYSQL_DATABASE=magento
+  magento:
+    build:
+      context: ./magento
