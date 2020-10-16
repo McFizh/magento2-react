@@ -1,1 +1,0 @@
-* * * * * php /services/magento/bin/magento cron:run > /dev/null 2>&1

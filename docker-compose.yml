@@ -5,6 +5,22 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=mysql-root-pwd
       - MYSQL_DATABASE=magento
+  phpmyadmin:
+    image: phpmyadmin:5
+    environment:
+      - PMA_HOST=database
+    ports:
+      - 3080:80
+  elasticsearch:
+    image: elasticsearch:7.9.2
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms768m -Xmx768m"
   magento:
     build:
       context: ./magento
+    depends_on:
+      - database
+      - elasticsearch
+    ports:
+      - 3090:80
