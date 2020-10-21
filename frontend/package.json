@@ -1,27 +1,45 @@
 {
-  "name": "magefront",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.19.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^7.0.3",
-    "react-router-dom": "^5.0.0",
-    "react-scripts": "^3.0.1",
-    "redux": "4.0.1",
-    "redux-promise": "0.6.0"
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.12.70",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
+    "axios": "^0.20.0",
+    "react": "^17.0.0",
+    "react-bulma-components": "^3.4.0",
+    "react-dom": "^17.0.0",
+    "react-scripts": "3.4.4",
+    "recoil": "0.0.13",
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "node-sass": "^4.14.1"
+  }
 }
