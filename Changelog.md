@@ -2,6 +2,7 @@
 * Switched back to MariaDB (from MySQL 8)
 * Updated Magento from 2.2.8 to 2.2.11
 * Replaced vagrant with docker
+* Rewrote the proxy module with typescript
 
 ## [01/2019]:
 * Replaced MariaDB & ArangoDB with MySQL 8

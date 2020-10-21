@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "strict": true,
+    "sourceMap": false,
+
+    "rootDir": "./",
+    "outDir": "./ts"
+  },
+  "include": [ "src/**/*" ],
+  "exclude": [ "node_modules" ]
+}

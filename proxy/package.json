@@ -1,23 +1,34 @@
 {
   "name": "proxy",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Rest proxy",
   "main": "index.js",
   "author": "Pekka Harjamäki <spamtrap_github@mcfish.org>",
   "scripts": {
-    "lint": "./node_modules/eslint/bin/eslint.js . ; exit 0"
+    "build": "tsc --outDir ./build",
+    "lint": "eslint",
+    "start": "node build/Main.js",
+    "watch": "nodemon src/Main.ts"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.8",
+    "@types/node": "^14.11.10",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1",
+    "eslint": "^7.11.0",
+    "nodemon": "^2.0.5",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
   },
   "dependencies": {
-    "db-migrate": "0.11.5",
-    "elasticsearch": "^16.1.0",
-    "good": "8.1.2",
-    "good-file": "6.0.1",
-    "good-squeeze": "5.1.0",
-    "hapi": "^18.1.0",
-    "mysql": "^2.17.1",
-    "superagent": "^5.0.5"
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0"
+    "@elastic/elasticsearch": "^7.9.1",
+    "express": "^4.17.1",
+    "got": "^11.8.0",
+    "mysql2": "^2.2.5",
+    "node-cron": "^2.0.3",
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0",
+    "winston": "^3.3.3"
   }
 }
