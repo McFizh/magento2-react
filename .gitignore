@@ -7,6 +7,7 @@ proxy/config.js
 
 # production
 /frontend/build
+/proxy/build
 
 # misc
 .DS_Store
@@ -14,4 +15,6 @@ proxy/config.js
 .env.development.local
 .env.test.local
 .env.production.local
+
 magento/Magento-CE-2.2.11_sample_data-2020-01-24-07-33-41.tar.bz2
+shared/config.js
