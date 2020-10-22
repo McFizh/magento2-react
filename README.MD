@@ -37,3 +37,5 @@ After the containers have been brought up, you can access magento admin via url:
 http://localhost:3090/admin_abc1
 
 Username is: **admin** and password is: **pass1234**
+
+Note. Docker environment writes the access token to shared folder with name config.js

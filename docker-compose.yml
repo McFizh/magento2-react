@@ -28,3 +28,5 @@ services:
       - elasticsearch
     ports:
       - 3090:80
+    volumes:
+      - ./shared:/shared

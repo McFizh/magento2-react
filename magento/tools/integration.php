@@ -3,7 +3,7 @@
 // https://magento.stackexchange.com/questions/130567/magento-2-programmatically-create-activate-and-authorize-a-new-integration#130807
 
 use Magento\Framework\App\Bootstrap;
-include_once('../magento/app/bootstrap.php');
+include_once('/var/www/html/app/bootstrap.php');
 
 $bootstrap = Bootstrap::create(BP, $_SERVER);
 $objectManager = $bootstrap->getObjectManager();
@@ -50,7 +50,7 @@ $oauthService = $objectManager->get('Magento\Integration\Model\OauthService');
 $consumer = $oauthService->loadConsumer($consumerId)->getData();
 $token = $oauthService->getAccessToken($consumerId)->getData();
 
-file_put_contents("/vagrant/proxy/config.js","module.exports = {
+file_put_contents("/tmp/config.js", "module.exports = {
     consumerKey:'".$consumer['key']."',
     consumerSecret:'".$consumer['secret']."',
     token: '".$token['token']."',

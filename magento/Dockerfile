@@ -3,9 +3,11 @@ RUN apt-get update && apt install -y less vim mariadb-client libicu-dev zlib1g-d
   libpng-dev libxslt1-dev libjpeg-dev libfreetype6-dev
 RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/include --with-freetype-dir=/usr/include --with-png-dir=/usr/include && \
   docker-php-ext-install mysqli pdo pdo_mysql intl zip soap gd bcmath xsl
-COPY magento-php.ini /usr/local/etc/php/conf.d
+RUN a2enmod rewrite
+COPY magento-php.ini /usr/local/etc/php/conf.d/
+COPY 000-default.conf /etc/apache2/sites-available/
 WORKDIR /extra
-COPY install_magento.sh .
+COPY install_magento.sh tools/*.php /extra/
 RUN chmod +x install_magento.sh
 USER www-data
 WORKDIR /var/www/html

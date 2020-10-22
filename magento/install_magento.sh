@@ -30,6 +30,10 @@ if [ ! -f "/var/www/html/app/etc/config.php" ]; then
     --admin-user=admin --admin-password=pass1234 --admin-email="changeme@mailinator.com" \
     --backend-frontname="admin_abc1" \
     --base-url=http://localhost:3090/'
+
+  echo "Creating integration keys..."
+  su -l -s /bin/sh www-data -c '/usr/local/bin/php /extra/integration.php'
+  mv /tmp/config.js /shared/
 fi
 
 ## Start up apache
