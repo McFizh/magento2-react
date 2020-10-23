@@ -6,27 +6,32 @@ This repo contains the following: Magento 2.2.11, React UI and Express REST prox
 
 ## Current state of this project
 
-[ ] WIP: ElasticIndexer module, which reads in data from magento.
-[ ] WIP: Ajax search api for proxy and search support for client
-[ ] WIP: CMS page support to proxy and client
-[ ] Proxy reads in categories and client can show them in dropdown
-[X] Dockerfiles to set up initial environment (react, node, magento)
+- [ ] WIP: ElasticIndexer module, which reads in data from magento.
+- [ ] WIP: Ajax search api for proxy and search support for client
+- [ ] WIP: CMS page support to proxy and client
+- [ ] Proxy reads in categories and client can show them in dropdown
+- [x] Dockerfiles to set up initial environment (react, node, magento)
 
 ## Technical description
 
-* Magento is running almost in vanilla state. There are two things that are modified:
-  * VagrantScripts/tools/integration.php script creates integration keys, so that proxy can read data from API
-  * VagrantScripts/base.sh script enables elasticindexer module (WIP), which indexes product data to elasticsearch engine for proxy to use
+* Magento is running almost in vanilla state. The following change(s) are made in install_magento.sh script:
+  * magento/tools/integration.php script creates integration keys, so that proxy can read data from REST API
 
-* Proxy that lives between magento and react app, is running on node.js 12.x and uses Express framework. It stores it's data to Mariadb and also uses elasticsearch engine for ajax search. Proxy reads in data from magento using delta updates and then provides the data to react app in lesser amount of requests.
+* Proxy that lives between magento and react app, is running on node.js 12.x and uses Express framework. Data is stored to MariaDB and updated from Magentoa in predefined intervals. Idea is that proxy can provide required data to frontend with lesser amount of queries.
 
-* React frontend .. This application communicates only with proxy, which caches the data for client use.
+* React frontend communicates only with the proxy server.
+
+* Both the proxy and the frontend have been implemented with typescript
 
 ## Docker environment
 
-If you want to try this system out, I have provided docker-compose scripts that create ready to use environment.
+If you want to try this system out, there's docker-compose.yml file that create ready to use environment.
 
 Before starting up environment, **replace** empty file "Magento-CE-2.2.11_sample_data-2020-01-24-07-33-41.tar.bz2" in "magento"-folder with a proper downloaded copy of magento with sampledata. This can't be done automatically, thanks to some braindead policy of keeping downloads behind login.
+
+Also set the following kernel value. You can add the value to /etc/sysctl.conf as permanent solution, or set it once with sysctl command. Value can be higher but not lower, this is required for elasticsearch to work:
+
+vm.max_map_count = 262144
 
 To build magento docker container, and start up the environment, run command:
 

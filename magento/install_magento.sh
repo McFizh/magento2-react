@@ -28,7 +28,7 @@ if [ ! -f "/var/www/html/app/etc/config.php" ]; then
     --db-user=magento --db-password=Magentopass_1234 --db-host='$DB_HOST' --db-name=magento \
     --admin-firstname=docker --admin-lastname=createby \
     --admin-user=admin --admin-password=pass1234 --admin-email="changeme@mailinator.com" \
-    --backend-frontname="admin_abc1" \
+    --backend-frontname="admin_abc1" --use-rewrites=1 \
     --base-url=http://localhost:3090/'
 
   echo "Creating integration keys..."
