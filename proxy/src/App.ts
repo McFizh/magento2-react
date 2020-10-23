@@ -2,6 +2,7 @@ import * as Express from 'express';
 
 import { ControllerInterface } from './types';
 import { Logger } from './utils/Logger';
+import { initDb } from './utils/Database';
 
 class App {
   public express: Express.Application;
@@ -10,6 +11,8 @@ class App {
   constructor(port: number, controllers: ControllerInterface[]) {
     this.express = Express();
     this.port = port;
+
+    initDb();
 
     controllers.forEach( (controller) => {
       this.express.use('/api', controller.router);

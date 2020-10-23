@@ -26,7 +26,7 @@ class CategoryService {
   }
 
   parseCategoryData(child_data: CategoryDTO[], parentId: number): Category[] {
-      if(!child_data || !Array.isArray(child_data) || child_data.length === 0) {
+    if(!child_data || !Array.isArray(child_data) || child_data.length === 0) {
       return [];
     }
 

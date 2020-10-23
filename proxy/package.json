@@ -6,9 +6,11 @@
   "author": "Pekka Harjamäki <spamtrap_github@mcfish.org>",
   "scripts": {
     "build": "tsc --outDir ./build",
-    "lint": "eslint",
+    "lint": "eslint .",
     "start": "node build/Main.js",
-    "watch": "nodemon src/Main.ts"
+    "watch": "nodemon src/Main.ts",
+    "db:migrate": "sequelize db:migrate",
+    "db:seed": "sequelize db:seed:all"
   },
   "license": "ISC",
   "devDependencies": {
@@ -23,6 +25,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.9.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "got": "^11.8.0",
     "mysql2": "^2.2.5",
