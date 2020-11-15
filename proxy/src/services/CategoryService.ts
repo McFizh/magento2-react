@@ -2,17 +2,17 @@ import Got from 'got';
 
 import { Category, CategoryDTO } from '../types';
 import Config from '../utils/Config';
-
-const ApiConfig = require('../../../shared/config.js');
+import { Logger } from '../utils/Logger';
 
 class CategoryService {
   private categoryData: Category[] = [];
 
   async requestCategories(): Promise<void> {
     try {
+      Logger.info('Reading category data from magento');
       const response = await Got(`${Config.magentouri}/index.php/rest/V1/categories`, {
         headers: {
-          Authorization: `Bearer ${ApiConfig.token}`
+          Authorization: `Bearer ${Config.token}`
         }
       });
       const rawCategoryData = JSON.parse(response.body);
@@ -31,7 +31,7 @@ class CategoryService {
     }
 
     const newCats: Category[] = [];
-    for(const cat of child_data) {
+    child_data.forEach( (cat) => {
       newCats.push({
         id: cat.id,
         name: cat.name,
@@ -42,8 +42,7 @@ class CategoryService {
       this
         .parseCategoryData( cat.children_data, cat.id )
         .forEach( (subCat) => newCats.push(subCat) );
-    }
-
+    });
 
     return newCats;
   }

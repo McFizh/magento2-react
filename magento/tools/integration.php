@@ -50,10 +50,11 @@ $oauthService = $objectManager->get('Magento\Integration\Model\OauthService');
 $consumer = $oauthService->loadConsumer($consumerId)->getData();
 $token = $oauthService->getAccessToken($consumerId)->getData();
 
-file_put_contents("/tmp/config.js", "module.exports = {
-    consumerKey:'".$consumer['key']."',
-    consumerSecret:'".$consumer['secret']."',
-    token: '".$token['token']."',
-    tokenSecret: '".$token['secret']."'
-};
+file_put_contents("/tmp/config.json", "
+{
+  \"consumerKey\": \"${consumer['key']}\",
+  \"consumerSecret\": \"${consumer['secret']}\",
+  \"token\": \"${token['token']}\",
+  \"tokenSecret\": \"${token['secret']}\"
+}
 ");

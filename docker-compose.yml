@@ -14,7 +14,7 @@ services:
     ports:
       - 3080:80
   elasticsearch:
-    image: elasticsearch:7.9.2
+    image: elasticsearch:7.9.3
     ports:
       - 9200:9200
     environment:

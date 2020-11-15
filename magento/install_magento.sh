@@ -33,7 +33,7 @@ if [ ! -f "/var/www/html/app/etc/config.php" ]; then
 
   echo "Creating integration keys..."
   su -l -s /bin/sh www-data -c '/usr/local/bin/php /extra/integration.php'
-  mv /tmp/config.js /shared/
+  mv /tmp/config.json /shared/
 fi
 
 ## Start up apache
